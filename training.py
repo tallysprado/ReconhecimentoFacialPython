@@ -4,6 +4,7 @@ import numpy as np
 eigenFaces = cv2.createEigenFaceRecognizer()
 
 def getImages():
+    print('Treinando imagens...')
     path = [os.path.join('faces', f) for f in os.listdir('faces')]
     faces = []
     ids = []
@@ -17,5 +18,9 @@ def getImages():
 
 ids, faces = getImages()
 
-eigenFaces.train(faces, ids)
-eigenFaces.save('classificadorEigen.yml')
+try:
+    eigenFaces.train(faces, ids)
+    eigenFaces.save('classificadorEigen.yml')
+    print('Imagens treinadas com sucesso!')
+except cv2.error as e:
+    print('Erro ao treinar imagens => '+ e.message)
