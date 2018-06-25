@@ -1,8 +1,9 @@
+#-*- coding: utf-8 -*-
 import cv2, os
 import numpy as np
-
-eigenFaces = cv2.createEigenFaceRecognizer()
-
+import recognizer
+from time import sleep
+lbph = cv2.createLBPHFaceRecognizer()
 def getImages():
     print('Treinando imagens...')
     path = [os.path.join('faces', f) for f in os.listdir('faces')]
@@ -15,12 +16,14 @@ def getImages():
         faces.append(imgFace)
 
     return np.array(ids), faces
+def train():
+    ids, faces = getImages()
 
-ids, faces = getImages()
-
-try:
-    eigenFaces.train(faces, ids)
-    eigenFaces.save('classificadorEigen.yml')
-    print('Imagens treinadas com sucesso!')
-except cv2.error as e:
-    print('Erro ao treinar imagens => '+ e.message)
+    try:
+        lbph.train(faces, ids)
+        lbph.save('classificadorLBPH.yml')
+        print('Imagens treinadas com sucesso!')
+        print('Reconhecendo rostos!')
+        recognizer.predict()
+    except cv2.error as e:
+        print('Erro ao treinar imagens => '+ e.message)
