@@ -29,10 +29,7 @@ while(True):
         regiaoFace = img[y:y+a,x:x+l]
         regiaoCinzaOlho = cv2.cvtColor(regiaoFace, cv2.COLOR_BGR2GRAY)
         olhos = classificadorOlho.detectMultiScale(regiaoCinzaOlho, scaleFactor=1.08,minNeighbors=5,minSize=(30,30))
-        if cv2.waitKey(1) & 0xFF == ord('s'):
-            cam.release()
-            cv2.destroyWindow("Webcam 0")
-            training.train()
+
         for (ox,oy,ol,oa) in olhos:
             cv2.rectangle(regiaoFace, (ox,oy),(ox+ol, oy+oa), (0,255,0),2)
 
@@ -48,6 +45,10 @@ while(True):
                 cam.release()
                 cv2.destroyWindow("Webcam 0")
                 training.train()
+        if cv2.waitKey(1) & 0xFF == ord('s'):
+            cam.release()
+            cv2.destroyWindow("Webcam 0")
+            training.train()
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
         if cv2.waitKey(1) & 0xFF == ord('s'):
