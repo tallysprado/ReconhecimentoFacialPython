@@ -9,7 +9,7 @@ import training
 classificador = cv2.CascadeClassifier('haarcascades/haarcascade_frontalface_default.xml')
 classificadorOlho = cv2.CascadeClassifier('haarcascades/haarcascade_eye.xml')
 amostra = 1
-print('C - Para captura de Imagens\nD - Para fechar\n=>A CAPTURA SO SERA FEITA APOS A DETECÇÃO DE AO MENOS UM OLHO E A FACE\n'
+print('C - Para captura de Imagens\nD - Para fechar\nS - Para abrir o reconhecedor pulando a captura\n=>A CAPTURA SO SERA FEITA APOS A DETECÇÃO DE AO MENOS UM OLHO E A FACE\n'
       '=>PARA O REGISTRO DE OUTRO ID APENAS FECHE A REPRODUÇÃO E INICIE O PROGRAMA NOVAMENTE QUE SERÁ REGISTRADO NOVAS FACES ADICIONANDO'
       'ÀS EXISTENTES JÁ SALVAS'
       '\n=>APERTE C REPETIDAS VEZES ENQUANTO MUDA A EXPRESSÃO FACIAL E GIRA O ROSTO LEVEMENTE, PARA CAPTURA DE 30 IMAGENS PARA TREINAMENTO')
@@ -29,7 +29,10 @@ while(True):
         regiaoFace = img[y:y+a,x:x+l]
         regiaoCinzaOlho = cv2.cvtColor(regiaoFace, cv2.COLOR_BGR2GRAY)
         olhos = classificadorOlho.detectMultiScale(regiaoCinzaOlho, scaleFactor=1.08,minNeighbors=5,minSize=(30,30))
-
+        if cv2.waitKey(1) & 0xFF == ord('s'):
+            cam.release()
+            cv2.destroyWindow("Webcam 0")
+            training.train()
         for (ox,oy,ol,oa) in olhos:
             cv2.rectangle(regiaoFace, (ox,oy),(ox+ol, oy+oa), (0,255,0),2)
 
@@ -41,8 +44,16 @@ while(True):
                     amostra += 1
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
+            if cv2.waitKey(1) & 0xFF == ord('s'):
+                cam.release()
+                cv2.destroyWindow("Webcam 0")
+                training.train()
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
+        if cv2.waitKey(1) & 0xFF == ord('s'):
+            cam.release()
+            cv2.destroyWindow("Webcam 0")
+            training.train()
 
     if (amostra > 30):
         cam.release()

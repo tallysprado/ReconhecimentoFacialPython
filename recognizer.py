@@ -6,7 +6,7 @@ def predict():
     classificador = cv2.CascadeClassifier('haarcascades/haarcascade_frontalface_default.xml')
 
     largura, altura = 220,220
-    font = cv2.FONT_HERSHEY_PLAIN
+    font = cv2.FONT_HERSHEY_COMPLEX_SMALL
 
     lbph = cv2.createLBPHFaceRecognizer()
     lbph.load('classificadorLBPH.yml')
