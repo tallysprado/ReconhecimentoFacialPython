@@ -39,16 +39,18 @@ while(True):
                     cv2.imwrite('faces/pessoa.'+str(id)+"."+str(amostra)+'.jpg',imgFace)
                     print('pessoa.'+str(id)+str(amostra)+'.jpg salva na pasta faces')
                     amostra += 1
+                    if cv2.waitKey(1) & 0xFF == ord('s'):
+                        cam.release()
+                        cv2.destroyWindow("Webcam 0")
+                        training.train()
+                    if cv2.waitKey(1) & 0xFF == ord('q'):
+                        break
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
             if cv2.waitKey(1) & 0xFF == ord('s'):
                 cam.release()
                 cv2.destroyWindow("Webcam 0")
                 training.train()
-        if cv2.waitKey(1) & 0xFF == ord('s'):
-            cam.release()
-            cv2.destroyWindow("Webcam 0")
-            training.train()
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
         if cv2.waitKey(1) & 0xFF == ord('s'):
